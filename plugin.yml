@@ -1,0 +1,13 @@
+name: levelplugin
+main: levelplugin\levelplugin
+author: maa123
+version: 1.0
+api: [1.11.0]
+load: POSTWORLD
+description: level
+website: http://maa123.official.jp
+commands:
+ statl:
+  description: レベルを表示します
+  usage: /statl
+  permission: true
