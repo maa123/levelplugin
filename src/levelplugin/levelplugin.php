@@ -44,6 +44,15 @@ class levelplugin extends PluginBase implements Listener {
     }
     public function onCommand(CommandSender $sender, Command $command, $label, array $args) {
     }
+    public function onJoin(PlayerJoinEvent $event) {
+        $name = $event->getPlayer()->getName();
+        if (!$this->exps->exists($name)) {
+            $this->levels->set($name, 1);
+            $this->levels->save();
+            $this->exps->set($name, 0);
+            $this->exps->save();
+        }
+    }
     public function onPlayerDeath(PlayerDeathEvent $event) {
         $ev = $event->getEntity()->getLastDamageCause();
         if ($ev instanceof EntityDamageByEntityEvent) {
