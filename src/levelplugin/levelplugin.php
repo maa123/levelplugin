@@ -43,6 +43,7 @@ class levelplugin extends PluginBase implements Listener {
         $this->getLogger()->info(TextFormat::GREEN . "LevelPluginが終了しました   " . TextFormat::GREEN . "製作者:maa123");
     }
     public function onCommand(CommandSender $sender, Command $command, $label, array $args) {
+        return false;
     }
     public function onJoin(PlayerJoinEvent $event) {
         $name = $event->getPlayer()->getName();
