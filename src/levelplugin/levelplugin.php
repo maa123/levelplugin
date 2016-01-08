@@ -35,9 +35,11 @@ class levelplugin extends PluginBase implements Listener {
             mkdir($this->getDataFolder(), 0744, true); //なければフォルダを作成
             $this->exps = new Config($this->getDataFolder() . "exps.json", Config::JSON, array());
             $this->levels = new Config($this->getDataFolder() . "level.json", Config::JSON, array());
+            $this->moneys = new Config($this->getDataFolder() . "moneys.json", Config::JSON, array());
         }
         $this->exps = new Config($this->getDataFolder() . "exps.json", Config::JSON, array());
         $this->levels = new Config($this->getDataFolder() . "level.json", Config::JSON, array());
+        $this->moneys = new Config($this->getDataFolder() . "moneys.json", Config::JSON, array());
     }
     public function onDisable() {
         $this->getLogger()->info(TextFormat::GREEN . "LevelPluginが終了しました   " . TextFormat::GREEN . "製作者:maa123");
@@ -52,6 +54,8 @@ class levelplugin extends PluginBase implements Listener {
             $this->levels->save();
             $this->exps->set($name, 0);
             $this->exps->save();
+            $this->moneys->set($name, 100);
+            $this->moneys->save();
         }
     }
     public function onPlayerDeath(PlayerDeathEvent $event) {
@@ -60,7 +64,10 @@ class levelplugin extends PluginBase implements Listener {
             $killer = $ev->getDamager();
             if ($killer instanceof Player) {
                 $exp = $this->exps->get($killer->getName());
+                $money = $this->moneys->get($killer->getName());
                 $exp = intval($exp) + 1; //経験値
+
+
                 $level = intval($this->levels->get($killer->getName()));
                 $lupexp = floor((pow(2, ($level + 1)) * 5) / 3);
                 if ($lupexp = < $exp) {
@@ -70,8 +77,11 @@ class levelplugin extends PluginBase implements Listener {
                     $this->levels->set($killer->getName(), $level);
                     $this->levels->save();
                 }
+  $money = intval(intval($money) + 1.5*$level);
                 $this->exps->set($killer->getName(), $exp);
                 $this->exps->save();
+                $this->moneys->set($killer->getName(), $money);
+                $this->moneys->save();
             }
         }
     }
